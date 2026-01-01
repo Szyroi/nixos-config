@@ -227,7 +227,7 @@
     ntfs3g
     gnome-keyring
     kdePackages.xdg-desktop-portal-kde
-    eclipses.eclipse-java
+
   ];
 
   qt = {
