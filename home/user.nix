@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, username, extraImports ? [], ... }:
 
 {
 
@@ -13,11 +13,11 @@
     ../modules/home/fastfetch.nix
     ../modules/home/hyprland.nix
     ../modules/home/nixvim.nix
-    # ../modules/home/zed.nix
+    ../modules/home/zed.nix
     # inputs.zen-browser.homeModules.beta
     # inputs.zen-browser.homeModules.twilight
     # inputs.zen-browser.homeModules.twilight-official
-  ];
+  ]++ extraImports;
 
   programs = {
     quickshell = {
@@ -37,7 +37,6 @@
     geeqie
     hyprpaper
     vscode
-    zed-editor
     wl-clipboard
     quickshell
     libsForQt5.qt5.qtdeclarative
@@ -49,6 +48,7 @@
     zip
     anki
     bitwarden-desktop
+
   ];
 
   # === Cursor Theme ===

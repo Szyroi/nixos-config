@@ -57,12 +57,9 @@
               nix.package = pkgs.nix;
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.${username} = {
-                imports = [
-                  ./home/user.nix
-
-                  inputs.nixvim.homeModules.nixvim
-                ];
+              home-manager.users.${username} = import ./home/user.nix {
+                inherit pkgs username;
+                extraImports = [ inputs.nixvim.homeModules.default ];
               };
             }
           ];
@@ -81,7 +78,9 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${username} = import ./home/user.nix;
+            home-manager.users.${username} = import ./home/user.nix {
+              inherit pkgs username;
+            };
           }
         ];
       };

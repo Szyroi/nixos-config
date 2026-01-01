@@ -219,8 +219,7 @@
     fd
     mpv
     ly
-    nixfmt-rfc-style
-    nil
+    alejandra
     nixd
     qalculate-gtk
     hplip

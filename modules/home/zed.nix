@@ -21,13 +21,11 @@
       clang
       gcc
       cmake
-      alejandra
       nodejs_20
       fd
       ripgrep
-      nil
+      nixd
       alejandra
-      nixpkgs-fmt
       nodePackages.vscode-langservers-extracted
     ];
 
@@ -42,7 +40,7 @@
         enabled = true;
         language_server = {
           java = "jdt-language-server";
-          nix = "nil";
+          nix = "nixd";
         };
       };
 
@@ -61,7 +59,7 @@
       };
 
       theme = {
-        mode = "dark";
+        mode = "light";
         light = "Vercel Light";
         dark = "Vercel Dark";
       };
@@ -71,7 +69,7 @@
         dark = "Colored Zed Icons Theme Dark";
       };
       lsp = {
-        # Java LSP (Eclipse JDT)
+
         "jdt-language-server" = {
           settings = {
             java = {
@@ -91,7 +89,6 @@
             };
           };
 
-          # Initialisierungs-Optionen für Java
           initialization_options = {
             bundles =
               let
@@ -107,19 +104,6 @@
           };
         };
 
-        # Nix LSP (nil ist besser als nixd)
-        nil = {
-          settings = {
-            nil = {
-              formatting = {
-                command = [
-                  "alejandra"
-                  "--quiet"
-                ];
-              };
-            };
-          };
-        };
       };
       languages = {
         Nix = {
