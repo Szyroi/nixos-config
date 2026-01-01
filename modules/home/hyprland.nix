@@ -140,9 +140,7 @@
     #############
 
     input = {
-      kb_layout = "de, jp";
-      kb_variant = "nodeadkeys";
-      kb_options = "grp:alt_shift_toggle";
+      kb_layout = "de";
       numlock_by_default = true;
       follow_mouse = 1;
       sensitivity = 0;
