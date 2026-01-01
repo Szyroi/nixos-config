@@ -1,9 +1,9 @@
 {
   config,
   pkgs,
+  username,
   ...
-}:
-{
+}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -156,9 +156,9 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  users.users.szyroi = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "szyroi";
+    description = "User";
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -183,11 +183,6 @@
   programs.xfconf.enable = true;
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-
-  };
 
   programs.steam = {
     enable = true;
@@ -225,9 +220,11 @@
     hplip
     polkit
     ntfs3g
-    gnome-keyring
-    kdePackages.xdg-desktop-portal-kde
+  ];
 
+  environment.pathsToLink = [
+    "/share/applications"
+    "/share/xdg-desktop-portal"
   ];
 
   qt = {
@@ -249,7 +246,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
     modesetting.enable = true;

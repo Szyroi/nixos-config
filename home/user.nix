@@ -1,23 +1,27 @@
-{ pkgs, username, extraImports ? [], ... }:
-
 {
-
+  pkgs,
+  username,
+  extraImports ? [],
+  ...
+}: {
   home.username = username;
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "25.05";
 
-  imports = [
-    ../modules/home/starship.nix
-    ../modules/home/kitty.nix
-    ../modules/home/sh.nix
-    ../modules/home/fastfetch.nix
-    ../modules/home/hyprland.nix
-    ../modules/home/nixvim.nix
-    ../modules/home/zed.nix
-    # inputs.zen-browser.homeModules.beta
-    # inputs.zen-browser.homeModules.twilight
-    # inputs.zen-browser.homeModules.twilight-official
-  ]++ extraImports;
+  imports =
+    [
+      ../modules/home/starship.nix
+      ../modules/home/kitty.nix
+      ../modules/home/sh.nix
+      ../modules/home/fastfetch.nix
+      ../modules/home/hyprland.nix
+      ../modules/home/nixvim.nix
+      ../modules/home/zed.nix
+      # inputs.zen-browser.homeModules.beta
+      # inputs.zen-browser.homeModules.twilight
+      # inputs.zen-browser.homeModules.twilight-official
+    ]
+    ++ extraImports;
 
   programs = {
     quickshell = {
@@ -48,7 +52,6 @@
     zip
     anki
     bitwarden-desktop
-
   ];
 
   # === Cursor Theme ===
@@ -91,11 +94,5 @@
   home.file = {
   };
 
-  home.sessionVariables = {
-    JAVA_HOME = "${pkgs.jdk}";
-    PATH = "${pkgs.jdk}/bin:$PATH";
-  };
-
   programs.home-manager.enable = true;
-
 }

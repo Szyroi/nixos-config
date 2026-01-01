@@ -167,7 +167,6 @@
         "$mod, Space, exec, $menu"
         "$mod, M, exit"
         "$mod, Q, killactive"
-        "$mod, Space, exec, ibus engine mozc"
 
         # Move focus with mainMod + arrow keys
         "$mod, left, movefocus, l"
