@@ -1,3 +1,18 @@
-**/hardware-configuration.nix.backup
-*.key
-.result
+# Nix store & temporary files
+result/
+*.drv
+*.gcroot
+/nix-profile
+/nix/var/nix/profiles
+
+# Home-Manager session state
+/home/szyroi/.local/share/home-manager/state/
+
+# Optional: flake.lock, wenn du sie nicht versionieren willst
+flake.lock
+
+# IDE / Editor files
+*.swp
+*.swo
+.vscode/
+.idea/
