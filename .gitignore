@@ -4,7 +4,7 @@ result-*
 .direnv/
 
 # Flakes Lockfile (kann mit ignoriert werden, wenn man Versionskontrolle bevorzugt)
-# flake.lock
+flake.lock
 
 # Persönliche/Backup Dateien
 *~
