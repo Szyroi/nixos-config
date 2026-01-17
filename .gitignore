@@ -1,18 +1,11 @@
-# Nix store & temporary files
-result/
-*.drv
-*.gcroot
-/nix-profile
-/nix/var/nix/profiles
+# Nix generierte Dateien
+result
+result-*
+.direnv/
 
-# Home-Manager session state
-/home/szyroi/.local/share/home-manager/state/
+# Flakes Lockfile (kann mit ignoriert werden, wenn man Versionskontrolle bevorzugt)
+# flake.lock
 
-# Optional: flake.lock, wenn du sie nicht versionieren willst
-flake.lock
-
-# IDE / Editor files
-*.swp
-*.swo
-.vscode/
-.idea/
+# Persönliche/Backup Dateien
+*~
+.#*
