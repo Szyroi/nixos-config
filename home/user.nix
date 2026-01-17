@@ -17,6 +17,7 @@
       ../modules/home/hyprland.nix
       ../modules/home/nixvim.nix
       ../modules/home/zed.nix
+      ../modules/home/wofi.nix
       # inputs.zen-browser.homeModules.beta
       # inputs.zen-browser.homeModules.twilight
       # inputs.zen-browser.homeModules.twilight-official
