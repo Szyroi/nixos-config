@@ -11,6 +11,10 @@
   nix = {
     settings = {
       auto-optimise-store = true;
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       max-jobs = "auto";
       cores = 0;
       substituters = [
@@ -32,12 +36,12 @@
   environment.sessionVariables = {
     # Wayland Core
     NIXOS_OZONE_WL = "1";
-    QT_QPA_PLATFORM = "wayland";
+    MOZ_ENABLE_WAYLAND = "1";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_QPA_PLATFORM = "wayland";
     GDK_BACKEND = "wayland";
     SDL_VIDEODRIVER = "wayland";
     CLUTTER_BACKEND = "wayland";
-    MOZ_ENABLE_WAYLAND = "1";
 
     # NVIDIA spezifisch
     WLR_NO_HARDWARE_CURSORS = "1";
@@ -234,10 +238,7 @@
   xdg.mime = {
     enable = true;
     addedAssociations = {
-      "text/plain" = "kate.desktop"; # Text-Dateien
-    };
-    defaultApplications = {
-      "inode/directory" = "dolphin.desktop";
+      "text/plain" = "kate.desktop";
     };
   };
 
@@ -247,7 +248,6 @@
     xfconf.enable = true;
     hyprland = {
       enable = true;
-      xwayland.enable = true;
     };
     steam = {
       enable = true;
@@ -277,9 +277,5 @@
     "/share/xdg-desktop-portal"
   ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
   system.stateVersion = "25.05";
 }
