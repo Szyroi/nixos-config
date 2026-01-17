@@ -6,6 +6,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ../modules/system/packages.nix
   ];
 
   # Garbage Collector
@@ -194,52 +195,6 @@
 
   hardware.steam-hardware.enable = true;
   programs.nix-ld.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    vim
-    btop
-    wget
-    git
-    bat
-    wofi
-    fzf
-    curl
-    unzip
-    lazygit
-    ripgrep
-    fd
-    mpv
-    alejandra
-    nixd
-    qalculate-gtk
-    hplip
-    polkit
-    ntfs3g
-    bibata-cursors
-    deluge-gtk
-    qbittorrent
-  ];
-
-  services.deluge = {
-    enable = true;
-    web.enable = true;
-    web.openFirewall = true;
-    # web.port = 8112;  # Default port
-    openFirewall = true;
-    config = {
-      # Network settings
-      listen_ports = [6881 6891];
-      random_port = false;
-
-      # Performance
-      max_connections_global = 200;
-      max_upload_speed = 1000.0; # KB/s
-      max_download_speed = 10000.0; # KB/s
-
-      # Security
-      allow_remote = true;
-    };
-  };
 
   environment.pathsToLink = [
     "/share/applications"
