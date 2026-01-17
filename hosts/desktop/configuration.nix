@@ -6,13 +6,14 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../modules/system/packages.nix
+    ../../modules/system/packages.nix
   ];
 
   # Garbage Collector
   nix.gc.automatic = true;
   nix.gc.dates = "weekly";
   nix.gc.options = "--delete-older-than 7d";
+
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     QT_QPA_PLATFORM = "wayland";
@@ -36,9 +37,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   services.udisks2.enable = true;
-  fileSystems."/run/media/szyroi/windows3" = {
+  fileSystems."/run/media/${username}/windows3" = {
     device = "/dev/nvme0n1p3";
-    fsType = "ntfs-3g";
+    fsType = "ntfs3";
     options = [
       "defaults"
       "uid=1000"
@@ -48,9 +49,9 @@
     ];
   };
 
-  fileSystems."/run/media/szyroi/windows5" = {
+  fileSystems."/run/media/${username}/windows5" = {
     device = "/dev/nvme0n1p5";
-    fsType = "ntfs-3g";
+    fsType = "ntfs3";
     options = [
       "defaults"
       "uid=1000"
@@ -229,12 +230,6 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

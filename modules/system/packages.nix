@@ -1,4 +1,9 @@
-{pkgs}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   system = with pkgs; [
     vim
     btop
@@ -21,6 +26,7 @@
     mpv
     ffmpeg
     imagemagick
+    qbittorrent-enhanced
   ];
 
   development = with pkgs; [
@@ -29,4 +35,8 @@
     nixd
     nixpkgs-fmt
   ];
+
+  allPackages = system ++ media ++ development;
+in {
+  environment.systemPackages = allPackages;
 }
