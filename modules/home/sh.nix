@@ -3,9 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-{
-
+}: {
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
@@ -17,7 +15,6 @@
     enable = true;
     shellAliases = {
       rebuild = "sudo nixos-rebuild switch --flake ~/nix#desktop";
-
     };
 
     bashrcExtra = ''
@@ -35,14 +32,11 @@
     shellAliases = {
       uwu = "sudo";
       rebuild = "sudo nixos-rebuild switch --flake ~/nix#desktop";
-      update = "nix flake update --flake ~/nix";
-
+      update = "sudo nix flake update --flake ~/nix";
     };
     shellInit = ''
       set -g fish_greeting ""
       starship init fish | source
     '';
-
   };
-
 }

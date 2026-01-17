@@ -4,10 +4,39 @@
   lib,
   ...
 }: {
+  home.packages = with pkgs; [
+    # Hyprland Utilities
+    hyprpaper
+  ];
+
   # Hyprland aktivieren
   wayland.windowManager.hyprland.enable = true;
 
-  # Basis-Einstellungen
+  services = {
+    hyprpaper = {
+      enable = true;
+      settings = let
+        path = "~/Pictures/WP1.jpg";
+      in {
+        splash = false;
+        ipc = true;
+        preload = [
+          "${path}"
+        ];
+        wallpaper = [
+          {
+            monitor = "DP-4";
+            path = "${path}";
+          }
+          {
+            monitor = "DP-3";
+            path = "${path}";
+          }
+        ];
+      };
+    };
+  };
+
   wayland.windowManager.hyprland.settings = {
     ################
     ### MONITORS ###
@@ -131,7 +160,7 @@
     };
 
     misc = {
-      force_default_wallpaper = -1; # Set to 0 or 1 to disable the anime mascot wallpapers
+      force_default_wallpaper = 0; # Set to 0 or 1 to disable the anime mascot wallpapers
       disable_hyprland_logo = false; # If true disables the random hyprland logo / anime girl background. :(
     };
 

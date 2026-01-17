@@ -8,7 +8,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,21 +43,21 @@
     # ------------------------------------------------------
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
+        inherit system;
         specialArgs = {
           inherit inputs;
-          inherit system;
           inherit username;
         };
         modules = [
           ./hosts/desktop/configuration.nix
           home-manager.nixosModules.home-manager
           {
-            nixpkgs.config.allowUnfree = true;
             nix.package = pkgs.nix;
+            nixpkgs.config.allowUnfree = true;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.${username} = import ./home/user.nix {
-              inherit pkgs username;
+              inherit pkgs inputs username;
               extraImports = [inputs.nixvim.homeModules.default];
             };
           }

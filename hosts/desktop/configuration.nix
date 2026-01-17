@@ -8,35 +8,205 @@
     ./hardware-configuration.nix
     ../../modules/system/packages.nix
   ];
-
-  # Garbage Collector
-  nix.gc.automatic = true;
-  nix.gc.dates = "weekly";
-  nix.gc.options = "--delete-older-than 7d";
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      max-jobs = "auto";
+      cores = 0;
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+  };
 
   environment.sessionVariables = {
+    # Wayland Core
     NIXOS_OZONE_WL = "1";
     QT_QPA_PLATFORM = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     GDK_BACKEND = "wayland";
+    SDL_VIDEODRIVER = "wayland";
+    CLUTTER_BACKEND = "wayland";
+    MOZ_ENABLE_WAYLAND = "1";
+
+    # NVIDIA spezifisch
+    WLR_NO_HARDWARE_CURSORS = "1";
+    WLR_RENDERER = "vulkan";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    LIBVA_DRIVER_NAME = "nvidia";
+
+    # Desktop Session
+    XDG_SESSION_TYPE = "wayland";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+
+    # Input Method
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     SDL_IM_MODULE = "fcitx";
-    MOZ_ENABLE_WAYLAND = "1";
-    WLR_NO_HARDWARE_CURSORS = "1";
-    XDG_SESSION_TYPE = "wayland";
-    XDG_CURRENT_DESKTOP = "Hyprland";
   };
 
-  services.dbus.enable = true;
-  security.polkit.enable = true;
-
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+    timeout = 3;
+  };
 
-  services.udisks2.enable = true;
+  boot.kernelParams = [
+    "nvidia_drm.modeset=1" # WICHTIGSTES PARAMETER
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+  ];
+
+  boot.extraModprobeConfig = ''
+    options nvidia_drm modeset=1
+    options nvidia NVreg_PreserveVideoMemoryAllocations=1
+  '';
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+    bluetooth.enable = true;
+    steam-hardware.enable = true;
+  };
+
+  services = {
+    xserver = {
+      videoDriver = "nvidia";
+    };
+    dbus.enable = true;
+    udisks2.enable = true;
+    openssh.enable = true;
+    blueman.enable = true;
+    gvfs.enable = true; # Mount, trash, and other functionalities
+    tumbler.enable = true; # Thumbnail support for images
+
+    pulseaudio.enable = false;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+
+    printing = {
+      enable = true;
+      drivers = with pkgs; [
+        cups-filters
+        cups-browsed
+        hplipWithPlugin
+        gutenprint
+      ];
+    };
+
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "de";
+        variant = "";
+      };
+    };
+
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --asterisks -t -c ${config.programs.hyprland.package}/bin/start-hyprland";
+          user = "greeter";
+        };
+      };
+    };
+  };
+
+  users.users.greeter = {
+    isSystemUser = true;
+    group = "greeter";
+    home = "/var/lib/greeter";
+    createHome = true;
+  };
+  users.groups.greeter = {};
+
+  security = {
+    polkit.enable = true;
+    rtkit.enable = true;
+  };
+
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [80 443 22];
+      allowedUDPPorts = [53];
+    };
+  };
+
+  time.timeZone = "Europe/Berlin";
+  console.keyMap = "de";
+
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_TIME = "de_DE.UTF-8";
+      LC_MONETARY = "de_DE.UTF-8";
+      LC_PAPER = "de_DE.UTF-8";
+      LC_MEASUREMENT = "de_DE.UTF-8";
+    };
+    inputMethod = {
+      enable = true;
+      type = "fcitx5";
+      fcitx5.addons = with pkgs; [
+        fcitx5-mozc
+        fcitx5-gtk
+        kdePackages.fcitx5-qt
+      ];
+    };
+  };
+
+  users.users.${username} = {
+    isNormalUser = true;
+    description = "User";
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+      "audio"
+      "input"
+      "render"
+    ];
+    packages = with pkgs; [
+      kdePackages.kate
+    ];
+  };
+
   fileSystems."/run/media/${username}/windows3" = {
     device = "/dev/nvme0n1p3";
     fsType = "ntfs3";
@@ -61,108 +231,6 @@
     ];
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
-  networking.networkmanager.enable = true;
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [80 443 22];
-    allowedUDPPorts = [53];
-  };
-  services.openssh.enable = true;
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Berlin";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.inputMethod = {
-    enable = true;
-    type = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      fcitx5-mozc
-      fcitx5-gtk
-      kdePackages.fcitx5-qt
-    ];
-  };
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "de_DE.UTF-8";
-    LC_IDENTIFICATION = "de_DE.UTF-8";
-    LC_MEASUREMENT = "de_DE.UTF-8";
-    LC_MONETARY = "de_DE.UTF-8";
-    LC_NAME = "de_DE.UTF-8";
-    LC_NUMERIC = "de_DE.UTF-8";
-    LC_PAPER = "de_DE.UTF-8";
-    LC_TELEPHONE = "de_DE.UTF-8";
-    LC_TIME = "de_DE.UTF-8";
-  };
-
-  services.xserver.enable = true;
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --asterisks -t -c ${pkgs.hyprland}/bin/Hyprland";
-        user = "greeter";
-      };
-    };
-  };
-
-  users.users.greeter = {
-    isSystemUser = true;
-    group = "greeter";
-    home = "/var/lib/greeter";
-    createHome = true;
-  };
-  users.groups.greeter = {};
-
-  services.xserver.xkb = {
-    layout = "de";
-    variant = "";
-  };
-  console.keyMap = "de";
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
-
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [
-      cups-filters
-      cups-browsed
-      hplipWithPlugin
-      gutenprint
-    ];
-  };
-
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  users.users.${username} = {
-    isNormalUser = true;
-    description = "User";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
-  };
-
   xdg.mime = {
     enable = true;
     addedAssociations = {
@@ -173,39 +241,23 @@
     };
   };
 
-  programs.firefox.enable = true;
-  programs.thunar.enable = true;
-  programs.xfconf.enable = true;
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; # Thumbnail support for images
-
-  programs.hyprland = {
-    enable = true;
-  };
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
-    gamescopeSession.enable = true;
-    extraCompatPackages = with pkgs; [
-      protonup-ng # Für Proton-GE
-    ];
-  };
-
-  hardware.steam-hardware.enable = true;
-  programs.nix-ld.enable = true;
-
-  environment.pathsToLink = [
-    "/share/applications"
-    "/share/xdg-desktop-portal"
-  ];
-
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
+  programs = {
+    firefox.enable = true;
+    thunar.enable = true;
+    xfconf.enable = true;
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      localNetworkGameTransfers.openFirewall = true;
+      gamescopeSession.enable = true;
+      extraCompatPackages = with pkgs; [protonup-ng];
+    };
+    nix-ld.enable = true;
   };
 
   fonts.packages = with pkgs; [
@@ -214,21 +266,16 @@
     noto-fonts-color-emoji
   ];
 
-  hardware.graphics = {
+  qt = {
     enable = true;
-    enable32Bit = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
   };
 
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
+  environment.pathsToLink = [
+    "/share/applications"
+    "/share/xdg-desktop-portal"
+  ];
 
   nix.settings.experimental-features = [
     "nix-command"
