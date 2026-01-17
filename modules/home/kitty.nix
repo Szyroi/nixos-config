@@ -3,10 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-
-{
-
+}: {
   programs.kitty = {
     enable = true;
     font = {
@@ -18,6 +15,7 @@
       scrollback_lines = 10000;
       enable_audio_bell = false;
       background_opacity = 0.85;
+      confirm_os_window_close = 0;
       background = "#000000";
       foreground = "#dddddd";
       background_blur = 0;
@@ -34,5 +32,4 @@
       '';
     };
   };
-
 }

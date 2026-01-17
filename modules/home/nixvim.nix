@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   programs.nixvim = {
     enable = true;
     package = pkgs.neovim-unwrapped;
@@ -55,9 +54,7 @@
             };
             shortcut = [
               {
-                action = {
-                  __raw = "function(path) vim.cmd('Telescope find_files') end";
-                };
+                action = ":Telescope find_files<CR>";
                 desc = "Files";
                 group = "Label";
                 icon = " ";

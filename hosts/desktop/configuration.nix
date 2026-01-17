@@ -35,7 +35,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   services.udisks2.enable = true;
-
   fileSystems."/run/media/szyroi/windows3" = {
     device = "/dev/nvme0n1p3";
     fsType = "ntfs-3g";
@@ -61,14 +60,13 @@
   };
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
   networking.networkmanager.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [80 443 22];
+    allowedUDPPorts = [53];
+  };
+  services.openssh.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
@@ -100,25 +98,30 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-  #   services.displayManager.sddm.wayland.enable = true;
   services.xserver.enable = true;
-  services.displayManager.ly = {
+
+  services.greetd = {
     enable = true;
-    x11Support = true;
     settings = {
-      session = "/home/szyroi/.config/ly/session.sh";
-      tty = 1;
-      theme = "solarized_dark";
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --asterisks -t -c ${pkgs.hyprland}/bin/Hyprland";
+        user = "greeter";
+      };
     };
   };
-  services.displayManager.sddm.enable = false;
-  #   services.displayManager.sddm.theme = "where_is_my_sddm_theme";
+
+  users.users.greeter = {
+    isSystemUser = true;
+    group = "greeter";
+    home = "/var/lib/greeter";
+    createHome = true;
+  };
+  users.groups.greeter = {};
 
   services.xserver.xkb = {
     layout = "de";
     variant = "";
   };
-
   console.keyMap = "de";
 
   services.avahi = {
@@ -137,7 +140,6 @@
     ];
   };
 
-  # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -145,16 +147,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   users.users.${username} = {
     isNormalUser = true;
@@ -184,6 +177,10 @@
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
 
+  programs.hyprland = {
+    enable = true;
+  };
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -196,7 +193,6 @@
   };
 
   hardware.steam-hardware.enable = true;
-
   programs.nix-ld.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -213,14 +209,37 @@
     ripgrep
     fd
     mpv
-    ly
     alejandra
     nixd
     qalculate-gtk
     hplip
     polkit
     ntfs3g
+    bibata-cursors
+    deluge-gtk
+    qbittorrent
   ];
+
+  services.deluge = {
+    enable = true;
+    web.enable = true;
+    web.openFirewall = true;
+    # web.port = 8112;  # Default port
+    openFirewall = true;
+    config = {
+      # Network settings
+      listen_ports = [6881 6891];
+      random_port = false;
+
+      # Performance
+      max_connections_global = 200;
+      max_upload_speed = 1000.0; # KB/s
+      max_download_speed = 10000.0; # KB/s
+
+      # Security
+      allow_remote = true;
+    };
+  };
 
   environment.pathsToLink = [
     "/share/applications"
@@ -244,8 +263,6 @@
     enable32Bit = true;
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
@@ -256,25 +273,6 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

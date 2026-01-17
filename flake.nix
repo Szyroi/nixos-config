@@ -52,6 +52,7 @@
           ./hosts/desktop/configuration.nix
           home-manager.nixosModules.home-manager
           {
+            nixpkgs.config.allowUnfree = true;
             nix.package = pkgs.nix;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -75,6 +76,7 @@
 
         home-manager.nixosModules.home-manager
         {
+          nixpkgs.config.allowUnfree = true;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.${username} = import ./home/user.nix {
