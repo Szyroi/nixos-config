@@ -25,11 +25,11 @@
         ];
         wallpaper = [
           {
-            monitor = "DP-3";
+            monitor = "DP-4";
             path = "${path}";
           }
           {
-            monitor = "DP-2";
+            monitor = "DP-3";
             path = "${path}";
           }
         ];
@@ -43,8 +43,8 @@
     ################
 
     monitor = [
-      "DP-2, 3840x2160@144, auto-right, 1.5"
-      "DP-3, 1920x1080@144, auto-left, 1"
+      "DP-3, 3840x2160@144, auto-right, 1.5"
+      "DP-4, 1920x1080@144, auto-left, 1"
     ];
 
     xwayland = {

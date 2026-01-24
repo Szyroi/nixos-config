@@ -44,11 +44,6 @@
     CLUTTER_BACKEND = "wayland";
 
     # NVIDIA spezifisch
-    WLR_NO_HARDWARE_CURSORS = "1";
-    WLR_RENDERER = "vulkan";
-    GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    LIBVA_DRIVER_NAME = "nvidia";
 
     # Desktop Session
     XDG_SESSION_TYPE = "wayland";
@@ -67,16 +62,6 @@
     efi.canTouchEfiVariables = true;
     timeout = 3;
   };
-
-  boot.kernelParams = [
-    "nvidia_drm.modeset=1" # WICHTIGSTES PARAMETER
-    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-  ];
-
-  boot.extraModprobeConfig = ''
-    options nvidia_drm modeset=1
-    options nvidia NVreg_PreserveVideoMemoryAllocations=1
-  '';
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -201,10 +186,6 @@
     extraGroups = [
       "wheel"
       "networkmanager"
-      "video"
-      "audio"
-      "input"
-      "render"
     ];
     packages = with pkgs; [
       kdePackages.kate

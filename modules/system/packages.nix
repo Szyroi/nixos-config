@@ -20,6 +20,7 @@
     unzip
     rsync
     aria2
+    kdePackages.ark
   ];
 
   media = with pkgs; [

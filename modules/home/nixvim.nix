@@ -8,28 +8,60 @@
     enable = true;
     package = pkgs.neovim-unwrapped;
     enableMan = true;
+    globals.mapleader = " ";
 
     colorschemes = {
-      catppuccin.enable = true;
+      oxocarbon.enable = true;
     };
 
     opts = {
       number = true;
       rnu = true;
+      wrap = false;
+      tabstop = 2;
+      shiftwidth = 2;
+      smartindent = true;
     };
 
     plugins = {
       nix.enable = true;
       lazygit.enable = true;
       which-key.enable = true;
-      wtf.enable = true;
-      yazi.enable = true;
-      fzf-lua.enable = true;
-      snacks.enable = true;
       web-devicons.enable = false;
-      lualine.enable = true;
-      treesitter.enable = true;
-      telescope.enable = true;
+      oil.enable = true;
+      harpoon.enable = true;
+      undotree.enable = true;
+      trouble.enable = true;
+
+      treesitter = {
+        enable = true;
+        nixGrammars = true;
+        indent.enable = true;
+      };
+
+      telescope = {
+        enable = true;
+        extensions = {
+          fzf-native.enable = true;
+          file-browser.enable = true;
+        };
+      };
+
+      lualine = {
+        enable = true;
+        theme = "auto";
+        settings = {
+          sections = {
+            lualine_a = ["mode"];
+            lualine_b = ["branch" "diff" "diagnostics"];
+            lualine_c = ["filename"];
+            lualine_x = ["encoding" "fileformat" "filetype"];
+            lualine_y = ["progress"];
+            lualine_z = ["location"];
+          };
+        };
+      };
+
       dashboard = {
         enable = true;
         settings = {
@@ -54,7 +86,9 @@
             };
             shortcut = [
               {
-                action = ":Telescope find_files<CR>";
+                action = {
+                  __raw = "function(path) vim.cmd('Telescope find_files') end";
+                };
                 desc = "Files";
                 group = "Label";
                 icon = " ";
@@ -84,30 +118,71 @@
 
       lsp = {
         enable = true;
+
+        keymaps = {
+          silent = true;
+          lspBuf = {
+            gd = "definition";
+            gD = "declaration";
+            gr = "references";
+            gi = "implementation";
+            K = "hover";
+            "<leader>ca" = "code_action";
+            "<leader>rn" = "rename";
+            "<leader>f" = "format";
+          };
+        };
+
         servers = {
           lua_ls.enable = true;
           nil_ls.enable = true;
+          jdtls.enable = true;
           rust_analyzer = {
             enable = true;
             installCargo = true;
             installRustc = true;
           };
-          ts_ls.enable = true;
         };
       };
     };
 
     extraPackages = with pkgs; [
-      nil
+      # Formatter/Linter
+      alejandra # Nix
+      nixpkgs-fmt # Alternative für Nix
+      stylua # Lua
+      rustfmt # Rust
+      nodePackages.prettier # JS/TS/CSS/HTML
+      jdk25 # Java
+
+      # Tools
+      ripgrep # Für Telescope live_grep
+      fd # Für Telescope find_files
+      lsof # Für Debugging
+
+      # LSPs
       lua-language-server
       rust-analyzer
+      nil # Nix LSP
       nodePackages.typescript-language-server
-      stylua
-      shfmt
-      alejandra
+      nodePackages.vscode-langservers-extracted # HTML/CSS/JSON
+      yaml-language-server
     ];
 
     keymaps = [
+      # Navigation
+      {
+        mode = "n";
+        key = "<C-d>";
+        action = "<C-d>zz";
+      }
+      {
+        mode = "n";
+        key = "<C-u>";
+        action = "<C-u>zz";
+      }
+
+      # Telescope
       {
         mode = "n";
         key = "<leader>ff";
@@ -125,8 +200,42 @@
       }
       {
         mode = "n";
-        key = "<leader>sn";
-        action = "<cmd>SnacksOpen<CR>";
+        key = "<leader>fh";
+        action = "<cmd>Telescope help_tags<CR>";
+      }
+
+      # Clipboard
+      {
+        mode = ["v"];
+        key = "<leader>y";
+        action = "\"+y";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>Y";
+        action = "\"+Y";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>p";
+        action = "\"+p";
+      }
+
+      # Buffer Management
+      {
+        mode = "n";
+        key = "<leader>bd";
+        action = ":bd<CR>";
+      }
+      {
+        mode = "n";
+        key = "<leader>bn";
+        action = ":bn<CR>";
+      }
+      {
+        mode = "n";
+        key = "<leader>bp";
+        action = ":bp<CR>";
       }
     ];
   };
