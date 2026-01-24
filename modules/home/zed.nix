@@ -5,6 +5,7 @@
       "nix"
       "toml"
       "java-eclipse-jdtls"
+      "java"
       "LaTeX"
     ];
     extraPackages = with pkgs; [
@@ -21,7 +22,6 @@
       nixd
       nil
       alejandra
-      nodePackages.vscode-langservers-extracted
     ];
 
     userSettings = {
@@ -35,11 +35,8 @@
       buffer_font_size = 15.0;
       buffer_font_family = "JetBrainsMono Nerd Font";
 
-      prettier = {
-        allowed = true;
-      };
-
       format_on_save = "on";
+      prettier.allowed = true;
 
       telemetry = {
         diagnostics = false;
@@ -53,34 +50,25 @@
         working_directory = "current_project_directory";
       };
 
-      theme = {
-        mode = "dark";
-        dark = "Vercel Dark";
-      };
-
       icon_theme = {
         mode = "dark";
         light = "Colored Zed Icons Theme Light";
         dark = "Colored Zed Icons Theme Dark";
       };
-      lsp = {
-      };
+
       languages = {
         Nix = {
           formatter = {
             external = {
               command = "alejandra";
-              arguments = [
-                "--quiet"
-              ];
+              arguments = ["--quiet"];
             };
           };
+          language_servers = ["nixd"];
         };
         Java = {
           show_edit_predictions = false;
-          prettier = {
-            allowed = true;
-          };
+          prettier.allowed = true;
           completions = {
             lsp = true;
           };

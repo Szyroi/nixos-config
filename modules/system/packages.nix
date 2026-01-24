@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   system = with pkgs; [
     vim
     btop
@@ -35,9 +36,11 @@
     alejandra
     nixd
     nixpkgs-fmt
+    nixfmt
   ];
 
   allPackages = system ++ media ++ development;
-in {
+in
+{
   environment.systemPackages = allPackages;
 }
