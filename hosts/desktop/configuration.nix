@@ -66,6 +66,13 @@
     timeout = 3;
   };
 
+  boot.kernelParams = [
+    "video=DP-1:e"
+    "video=DP-2:e"
+    "video=DP-3:e"
+    "video=DP-4:e"
+  ];
+
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;

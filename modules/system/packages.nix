@@ -14,21 +14,18 @@
     curl
     wget
     unzip
-    rsync
     aria2
     kdePackages.ark
-    git
   ];
 
   media = with pkgs; [
     mpv
     ffmpeg
-    gnome-photos
+    loupe
     qbittorrent-enhanced
   ];
 
   development = with pkgs; [
-    lazygit
     alejandra
     nixd
     nixpkgs-fmt

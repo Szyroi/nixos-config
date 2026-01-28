@@ -52,9 +52,16 @@
   };
 
   services.dbus.enable = true;
+  openssh.enable = true;
   security = {
     polkit.enable = true;
     rtkit.enable = true;
+  };
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
   };
 
   # Bootloader.
@@ -78,7 +85,7 @@
   services.tumbler.enable = true; # Thumbnail support for images
 
   networking = {
-    hostName = "nixos";
+    hostName = "nixos-btw";
     networkmanager.enable = true;
     firewall = {
       enable = true;
@@ -93,6 +100,12 @@
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
+  services.xserver.xkb = {
+    layout = "de";
+    variant = "";
+  };
+
+  console.keyMap = "de";
 
   # Select internationalisation properties.
   i18n = {
@@ -118,19 +131,6 @@
     enable = true;
     wayland.enable = true;
     theme = "${pkgs.where-is-my-sddm-theme.override {variants = ["qt5"];}}/share/sddm/themes/where_is_my_sddm_theme_qt5";
-  };
-
-  services.xserver.xkb = {
-    layout = "de";
-    variant = "";
-  };
-
-  console.keyMap = "de";
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
   };
 
   services.printing = {

@@ -8,21 +8,6 @@
       "java"
       "LaTeX"
     ];
-    extraPackages = with pkgs; [
-      jdt-language-server
-      python3
-      rustup
-      cargo
-      clang
-      gcc
-      cmake
-      nodejs_20
-      fd
-      ripgrep
-      nixd
-      nil
-      alejandra
-    ];
 
     userSettings = {
       base_keymap = "VSCode";

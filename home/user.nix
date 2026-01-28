@@ -33,14 +33,11 @@
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
-    papirus-icon-theme
-    bibata-cursors
     easyeffects
     obsidian
     vesktop
     wl-clipboard
     quickshell
-    libsForQt5.qt5.qtdeclarative
     syncthing
     anki
     bitwarden-desktop
