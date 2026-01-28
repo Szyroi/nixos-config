@@ -3,31 +3,27 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   system = with pkgs; [
     vim
     btop
     htop
-    neofetch
-    ripgrep
-    fd
     eza
     bat
     fzf
-    git
     curl
     wget
     unzip
     rsync
     aria2
     kdePackages.ark
+    git
   ];
 
   media = with pkgs; [
     mpv
     ffmpeg
-    imagemagick
+    gnome-photos
     qbittorrent-enhanced
   ];
 
@@ -37,10 +33,11 @@ let
     nixd
     nixpkgs-fmt
     nixfmt
+    jdk
+    jdt-language-server
   ];
 
   allPackages = system ++ media ++ development;
-in
-{
+in {
   environment.systemPackages = allPackages;
 }

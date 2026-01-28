@@ -7,6 +7,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/system/packages.nix
+    ../../modules/system/git.nix
   ];
   nix = {
     settings = {
@@ -54,6 +55,8 @@
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     SDL_IM_MODULE = "fcitx";
+
+    JAVA_HOME = "${pkgs.jdk.home}";
   };
 
   # Bootloader.

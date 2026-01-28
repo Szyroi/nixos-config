@@ -108,9 +108,4 @@
       };
     };
   };
-
-  home.sessionVariables = {
-    JAVA_HOME = "${pkgs.jdk21}";
-    GRADLE_USER_HOME = "$HOME/.gradle";
-  };
 }

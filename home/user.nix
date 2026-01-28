@@ -37,20 +37,11 @@
     bibata-cursors
     easyeffects
     obsidian
-    kitty
     vesktop
-    geeqie
-    hyprpaper
-    vscode
     wl-clipboard
     quickshell
     libsForQt5.qt5.qtdeclarative
     syncthing
-    jdk
-    nodejs_24
-    tflint
-    unzip
-    zip
     anki
     bitwarden-desktop
   ];
