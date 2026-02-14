@@ -53,7 +53,6 @@
       nixpkgs.config.allowUnfree = true;
     };
 
-    # Home-Manager Konfiguration (getrennt!)
     homeManagerConfiguration = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       extraSpecialArgs = specialArgs;
@@ -63,7 +62,6 @@
         inputs.stylix.homeModules.stylix
         inputs.sops-nix.homeModules.sops
 
-        # Deine user.nix (jetzt als Home-Manager Modul)
         ./home/user.nix
       ];
     };
@@ -77,16 +75,15 @@
           nixDefaultsModule
           ./hosts/desktop/configuration.nix
 
-          # Home-Manager als NixOS Modul - ABER NUR die Grundkonfiguration!
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-bak";
-            home-manager.users.${username} = import ./home/user.nix; # Das bleibt
+            home-manager.users.${username} = import ./home/user.nix;
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.sharedModules = [
-              inputs.nixvim.homeModules.nixvim # korrigiert
+              inputs.nixvim.homeModules.nixvim
               inputs.stylix.homeModules.stylix
               inputs.sops-nix.homeModules.sops
             ];
@@ -101,7 +98,6 @@
           nixDefaultsModule
           ./hosts/laptop/configuration.nix
 
-          # Gleiches Home-Manager Setup für Laptop
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -114,7 +110,6 @@
       };
     };
 
-    # Home-Manager standalone Konfiguration (optional, falls du home-manager switch nutzen willst)
     homeConfigurations = {
       ${username} = homeManagerConfiguration;
     };
