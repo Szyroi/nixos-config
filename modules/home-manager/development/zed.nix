@@ -162,7 +162,9 @@
             };
           };
         };
-
+        Java = {
+          language_servers = ["jdtls"];
+        };
         CMake = {
           formatter = {
             external = {
@@ -186,6 +188,32 @@
                 "format"
                 "-"
               ];
+            };
+          };
+        };
+
+        texlab = {
+          settings = {
+            texlab = {
+              build = {
+                onSave = true;
+                executable = "latexmk";
+                args = [
+                  "-f"
+                  "-pdf"
+                  "-interaction=nonstopmode"
+                  "-synctex=1"
+                ];
+                outputDirectory = "build";
+              };
+              forwardSearch = {
+                executable = "zathura";
+                args = [
+                  "--synctex-forward"
+                  "%l:%c:%p"
+                  "%p"
+                ];
+              };
             };
           };
         };
