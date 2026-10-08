@@ -58,7 +58,7 @@
     statix
     deadnix
 
-    jdk17
+    jdk25
     maven
 
     nasm
@@ -75,6 +75,7 @@
     python3
     python313Packages.pip
     virtualenv
+    jupyter
 
     dbeaver-bin
 
@@ -93,7 +94,7 @@ in {
   programs.nix-ld.enable = true;
 
   environment.sessionVariables = {
-    JAVA_HOME = "${pkgs.jdk17}";
+    JAVA_HOME = "${pkgs.jdk25}";
   };
 
   environment.systemPackages =

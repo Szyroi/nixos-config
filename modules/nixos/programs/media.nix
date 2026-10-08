@@ -10,5 +10,8 @@
     ausweisapp
     parabolic
     cliamp
+    zathura
+    texliveFull
+    texstudio
   ];
 }
