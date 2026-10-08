@@ -13,5 +13,6 @@
     zathura
     texliveFull
     texstudio
+    jetbrains.idea
   ];
 }
