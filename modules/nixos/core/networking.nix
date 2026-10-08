@@ -22,7 +22,12 @@
 
   networking = {
     networkmanager.enable = true;
+<<<<<<< HEAD
 
+=======
+    useDHCP = false;
+    interfaces.eno1.useDHCP = false;
+>>>>>>> e25a0bea59fd3ffdc387c1d903f981f1b7a72e04
     firewall = {
       enable = true;
 
