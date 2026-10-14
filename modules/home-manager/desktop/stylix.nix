@@ -9,8 +9,8 @@
     helix.enable = false;
 
     gtk = {
-      enable = false;
-      colors.enable = false;
+      enable = true;
+      colors.enable = true;
     };
 
     qt.enable = true;

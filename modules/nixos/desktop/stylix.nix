@@ -30,9 +30,26 @@
     };
 
     fonts = {
+      sansSerif = {
+        package = pkgs.nerd-fonts.jetbrains-mono;
+        name = "JetBrainsMono Nerd Font";
+      };
+
+      serif = {
+        package = pkgs.nerd-fonts.jetbrains-mono;
+        name = "JetBrainsMono Nerd Font";
+      };
+
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "Jetbrains Mono Nerd Font";
+        name = "JetBrainsMono Nerd Font";
+      };
+
+      sizes = {
+        applications = 11;
+        terminal = 12;
+        desktop = 11;
+        popups = 11;
       };
     };
   };
