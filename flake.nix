@@ -42,10 +42,6 @@
     nixland = {
       url = "github:Szyroi/nixland";
     };
-
-    sqldeveloper = {
-      url = "github:Szyroi/SQLDeveloper-Flake";
-    };
   };
 
   outputs = {

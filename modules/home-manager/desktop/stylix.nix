@@ -6,6 +6,7 @@
     kitty.enable = true;
     vesktop.enable = true;
 
+    rofi.enable = false;
     helix.enable = false;
 
     gtk = {

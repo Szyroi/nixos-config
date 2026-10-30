@@ -3,10 +3,7 @@
   pkgs,
   ...
 }: {
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = [
     inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
-    kdePackages.ark
-    pavucontrol
-    networkmanagerapplet
   ];
 }

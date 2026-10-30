@@ -1,8 +1,4 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: let
+{pkgs, ...}: let
   language-servers = with pkgs; [
     hyprls
     fish-lsp
@@ -75,9 +71,6 @@
     python3
     python313Packages.pip
     virtualenv
-    jupyter
-
-    dbeaver-bin
 
     nodejs
 
@@ -88,7 +81,6 @@
     qt6.qtvirtualkeyboard
     qt6.qtmultimedia
     qt6.qt5compat
-    inputs.sqldeveloper.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 in {
   programs.nix-ld.enable = true;
