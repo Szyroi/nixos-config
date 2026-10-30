@@ -4,9 +4,7 @@
     obsidian
     vesktop
     anki
-    yazi
     thunderbird
-    nautilus
 
     # Screenshot Utills
     grim
