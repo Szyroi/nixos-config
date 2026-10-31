@@ -1,0 +1,20 @@
+# Build output
+/target/
+
+# Rust backup files
+**/*.rs.bk
+
+# Environment
+.env
+.env.*
+
+# direnv
+.direnv/
+
+# Nix
+result
+result-*
+
+# IDE
+.idea/
+.vscode/

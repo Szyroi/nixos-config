@@ -19,7 +19,7 @@ pkgs.mkShell {
   RUST_BACKTRACE = "1";
 
   shellHook = ''
-    echo "Rust devshell"
+    echo "Rust development environment"
     rustc --version
     cargo --version
   '';

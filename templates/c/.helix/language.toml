@@ -1,0 +1,13 @@
+[language-server.clangd]
+command = "clangd"
+args = ["--background-index"]
+
+[[language]]
+name = "c"
+language-servers = ["clangd"]
+auto-format = true
+
+[[language]]
+name = "cpp"
+language-servers = ["clangd"]
+auto-format = true

@@ -129,8 +129,17 @@
         inherit pkgs;
       };
 
-      rust = import ./devshells/rust.nix {inherit pkgs;};
-      cc = import ./devshells/cc.nix {inherit pkgs;};
+      rust = import ./devshells/rust.nix {
+        inherit pkgs;
+      };
+
+      c = import ./devshells/c.nix {
+        inherit pkgs;
+      };
+
+      cpp = import ./devshells/cpp.nix {
+        inherit pkgs;
+      };
     };
 
     templates = {
@@ -144,6 +153,21 @@
       python = {
         path = ./templates/python;
         description = "Python project with uv, Ruff and ty";
+      };
+
+      rust = {
+        path = ./templates/rust;
+        description = "Rust project with cargo, rust-analyzer and clippy";
+      };
+
+      c = {
+        path = ./templates/c;
+        description = "C development project";
+      };
+
+      cpp = {
+        path = ./templates/cpp;
+        description = "C++ development project";
       };
     };
 
