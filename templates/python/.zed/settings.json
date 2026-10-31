@@ -2,7 +2,7 @@
   "languages": {
     "Python": {
       "language_servers": [
-        "basedpyright",
+        "ty",
         "ruff"
       ],
       "formatter": {

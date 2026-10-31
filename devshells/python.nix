@@ -7,7 +7,7 @@ pkgs.mkShell {
     ruff
   ];
 
-  shellhook = ''
+  shellHook = ''
     echo "Python development environment"
     python --version
     uv --version
