@@ -111,6 +111,31 @@
   in {
     formatter.${system} = pkgs.alejandra;
 
+    devShells.${system} = {
+      default = pkgs.mkShell {
+        packages = with pkgs; [
+          git
+          nixd
+          alejandra
+          statix
+          deadnix
+        ];
+      };
+
+      latex = import ./devschells/latex.nix {
+        inherit pkgs;
+      };
+    };
+
+    templates = {
+      default = self.templates.latex;
+
+      latex = {
+        path = ./templates/latex;
+        description = "LaTeX project with Zed, texlab and Zathura";
+      };
+    };
+
     nixosConfigurations = {
       desktop = mkHost {
         host = "desktop";

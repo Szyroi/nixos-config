@@ -83,7 +83,13 @@
     qt6.qt5compat
   ];
 in {
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      freetype
+      fontconfig
+    ];
+  };
 
   environment.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk25}";
