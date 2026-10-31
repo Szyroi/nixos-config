@@ -1,8 +1,13 @@
-[language-server.clangd-nix]
+[language-server.clangd]
 command = "clangd-nix"
 args = ["--compile-commands-dir=build"]
 
 [[language]]
 name = "c"
-language-servers = ["clangd-nix"]
+language-servers = ["clangd"]
+auto-format = true
+
+[[language]]
+name = "cpp"
+language-servers = ["clangd"]
 auto-format = true

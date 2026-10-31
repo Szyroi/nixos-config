@@ -1,30 +1,25 @@
-{pkgs}:
-pkgs.mkShell {
-  packages = with pkgs; [
-    gcc
-    clang
-    clang-tools
-    gnumake
-    cmake
-    ninja
-    gdb
-    bear
-  ];
-
-  shellHook = ''
-    mkdir -p .nix-bin
-
-    cat > .nix-bin/clangd-nix <<'EOF'
-    #!/usr/bin/env bash
-    CLANG="$(command -v clang)"
-    exec clangd \
-      --query-driver="$CLANG" \
+{pkgs}: let
+  clangd-nix = pkgs.writeShellScriptBin "clangd-nix" ''
+    exec ${pkgs.clang-tools}/bin/clangd \
+      --query-driver="${pkgs.clang}/bin/clang" \
       "$@"
-    EOF
-
-    chmod +x .nix-bin/clangd-nix
-    export PATH="$PWD/.nix-bin:$PATH"
-    gcc --version | head -n1
-    clang --version | head -n1
   '';
-}
+in
+  pkgs.mkShell {
+    packages = with pkgs; [
+      gcc
+      clang
+      clang-tools
+      gnumake
+      cmake
+      ninja
+      gdb
+      bear
+      clangd-nix
+    ];
+
+    shellHook = ''
+      gcc --version | head -n1
+      clang --version | head -n1
+    '';
+  }
