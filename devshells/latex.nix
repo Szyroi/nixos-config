@@ -1,13 +1,12 @@
 {pkgs}:
 pkgs.mkShell {
   packages = with pkgs; [
-    texlive.combined.scheme-full
-    latexmk
+    texliveFull
+    texlivePackages.latexmk
+    texlivePackages.chktex
     texlab
     biber
-    chktex
 
     zathura
-    zathura-pdf-mupdf
   ];
 }

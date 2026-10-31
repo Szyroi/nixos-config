@@ -122,7 +122,7 @@
         ];
       };
 
-      latex = import ./devschells/latex.nix {
+      latex = import ./devshells/latex.nix {
         inherit pkgs;
       };
     };
