@@ -23,7 +23,7 @@
       },
       "initialization_options": {
         "fallbackFlags": [
-          "-std=c23",
+          "-std=c++23",
         ]
       }
     }
