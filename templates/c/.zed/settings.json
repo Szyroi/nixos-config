@@ -11,12 +11,7 @@
     "clangd": {
       "binary": {
         "arguments": [
-          "--compile-commands-dir=build"
-        ]
-      },
-      "initialization_options": {
-        "fallbackFlags": [
-          "-std=c23"
+          "--query-driver=*-clang-wrapper-*/bin/clang"
         ]
       }
     }

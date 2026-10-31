@@ -12,8 +12,10 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
+    export CLANGD_QUERY_DRIVER="$(command -v clang)"
     echo "C development environment"
+    echo "Clang wrapper: $CLANGD_QUERY_DRIVER"
     gcc --version | head -n1
-    cmake --version | head -n1
+    clang --version | head -n1
   '';
 }
