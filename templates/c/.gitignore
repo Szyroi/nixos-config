@@ -32,3 +32,17 @@ result-*
 # IDE
 .idea/
 .vscode/
+.zed/
+.helix/
+
+# Debug symbols and profiling
+*.d
+*.gcda
+*.gcno
+*.profraw
+*.profdata
+
+# Libraries
+*.dll
+*.dylib
+*.lib

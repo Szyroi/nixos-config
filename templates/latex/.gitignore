@@ -1,3 +1,9 @@
 /build/
 /.direnv/
 result
+
+# IDE
+.idea/
+.vscode/
+.zed/
+.helix/

@@ -18,3 +18,5 @@ result-*
 # IDE
 .idea/
 .vscode/
+.zed/
+.helix/

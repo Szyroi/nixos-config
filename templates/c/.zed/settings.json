@@ -9,6 +9,11 @@
   },
   "lsp": {
     "clangd": {
+      "binary": {
+        "arguments": [
+          "--compile-commands-dir=build"
+        ]
+      },
       "initialization_options": {
         "fallbackFlags": [
           "-std=c23"

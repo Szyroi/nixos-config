@@ -1,11 +1,6 @@
 [language-server.clangd]
 command = "clangd"
-args = ["--background-index"]
-
-[[language]]
-name = "c"
-language-servers = ["clangd"]
-auto-format = true
+args = ["--compile-commands-dir=build"]
 
 [[language]]
 name = "cpp"
