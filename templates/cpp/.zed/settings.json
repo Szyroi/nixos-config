@@ -1,22 +1,24 @@
 {
   "languages": {
+    "C": {
+      "language_servers": [
+        "clangd-nix"
+      ],
+      "format_on_save": "on"
+    },
     "C++": {
       "language_servers": [
-        "clangd"
+        "clangd-nix"
       ],
       "format_on_save": "on"
     }
   },
   "lsp": {
-    "clangd": {
+    "clangd-nix": {
       "binary": {
+        "path": "clangd-nix",
         "arguments": [
           "--compile-commands-dir=build"
-        ]
-      },
-      "initialization_options": {
-        "fallbackFlags": [
-          "-std=c++23"
         ]
       }
     }

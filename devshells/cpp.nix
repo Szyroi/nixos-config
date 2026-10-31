@@ -12,8 +12,22 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
+    mkdir -p .nix-bin
+
+    cat > .nix-bin/clangd-nix <<'EOF'
+    #!/usr/bin/env bash
+    CLANG="$(command -v clang)"
+    exec clangd \
+      --query-driver="$CLANG" \
+      "$@"
+    EOF
+
+    chmod +x .nix-bin/clangd-nix
+    export PATH="$PWD/.nix-bin:$PATH"
+
     echo "C++ development environment"
-    g++ --version | head -n1
-    cmake --version | head -n1
+    echo "GCC: $(gcc --version | head -n1)"
+    echo "Clang: $(clang --version | head -n1)"
+    echo "CMake: $(cmake --version | head -n1)"
   '';
 }

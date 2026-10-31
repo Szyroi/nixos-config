@@ -1,8 +1,8 @@
-[language-server.clangd]
-command = "clangd"
-args = ["--query-driver=*-clang-wrapper-*/bin/clang"]
+[language-server.clangd-nix]
+command = "clangd-nix"
+args = ["--compile-commands-dir=build"]
 
 [[language]]
 name = "c"
-language-servers = ["clangd"]
+language-servers = ["clangd-nix"]
 auto-format = true
