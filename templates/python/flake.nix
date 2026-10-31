@@ -1,5 +1,5 @@
 {
-  description = "Python development project";
+  description = "Python project with uv, Ruff and ty";
 
   inputs.nixos-config.url = "github:Szyroi/nixos-config";
 

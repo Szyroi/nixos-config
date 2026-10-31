@@ -141,7 +141,7 @@
 
       python = {
         path = ./templates/python;
-        description = "Python project with uv, Ruff and BasedPyright";
+        description = "Python project with uv, Ruff and ty";
       };
     };
 

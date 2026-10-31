@@ -1,13 +1,13 @@
 [project]
 name = "my-project"
 version = "0.1.0"
-description = "My Python project"
+description = "Python project"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
 
-[project.optional-dependencies]
-dev = ["pytest", "debugpy"]
+[dependency-groups]
+dev = ["pytest>=8.0"]
 
 [build-system]
 requires = ["hatchling"]
@@ -20,9 +20,8 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
 
+[tool.ty.environment]
+python-version = "3.13"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-
-[tool.pyright]
-typeCheckingMode = "strict"
-include = ["src", "tests"]

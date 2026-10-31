@@ -1,5 +1,5 @@
-from my_project import greet
+from my_project.main import greet
 
 
 def test_greet() -> None:
-    assert greet("Welt") == "Hallo, Welt!"
+    assert greet("World") == "Hello, World!"
