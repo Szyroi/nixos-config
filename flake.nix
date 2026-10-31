@@ -125,6 +125,10 @@
       latex = import ./devshells/latex.nix {
         inherit pkgs;
       };
+
+      python = import ./devshells/python.nix {
+        inherit pkgs;
+      };
     };
 
     templates = {
@@ -133,6 +137,11 @@
       latex = {
         path = ./templates/latex;
         description = "LaTeX project with Zed, texlab and Zathura";
+      };
+
+      python = {
+        path = ./templates/python;
+        description = "Python project with uv, Ruff and BasedPyright";
       };
     };
 

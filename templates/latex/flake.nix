@@ -9,7 +9,6 @@
   }: let
     system = "x86_64-linux";
   in {
-    devShells.${system}.default =
-      nixos-config.devShells.${system}.latex;
+    devShells.${system}.default = nixos-config.devShells.${system}.latex;
   };
 }
