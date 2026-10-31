@@ -91,6 +91,11 @@ in {
     ];
   };
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv = true;
+  };
+
   environment.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk25}";
   };
