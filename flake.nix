@@ -114,7 +114,6 @@
     devShells.${system} = {
       default = pkgs.mkShell {
         packages = with pkgs; [
-          git
           nixd
           alejandra
           statix
@@ -129,6 +128,9 @@
       python = import ./devshells/python.nix {
         inherit pkgs;
       };
+
+      rust = import ./devshells/rust.nix {inherit pkgs;};
+      cc = import ./devshells/cc.nix {inherit pkgs;};
     };
 
     templates = {
